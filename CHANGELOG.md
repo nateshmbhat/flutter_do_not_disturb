@@ -1,3 +1,3 @@
-## 0.0.1
+## 1.0.0
 
-* TODO: Describe initial release.
+- Release: Sprinkled some kotlin code with flutter plugin interfacing 💖
