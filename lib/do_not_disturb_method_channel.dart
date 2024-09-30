@@ -1,20 +1,12 @@
-import 'package:do_not_disturb/do_not_disturb_interruption.dart';
+import 'package:do_not_disturb/types.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
 import 'do_not_disturb_platform_interface.dart';
 
 /// An implementation of [DoNotDisturbPlatform] that uses method channels.
 class MethodChannelDoNotDisturb extends DoNotDisturbPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('do_not_disturb');
-
-  @override
-  Future<bool> isDndEnabled() async {
-    final bool? enabled =
-        await methodChannel.invokeMethod<bool>('isDndEnabled');
-    return enabled ?? false;
-  }
 
   @override
   Future<InterruptionFilter> getDNDStatus() async {
@@ -31,5 +23,12 @@ class MethodChannelDoNotDisturb extends DoNotDisturbPlatform {
   Future<void> openNotificationPolicyAccessSettings() async {
     await methodChannel
         .invokeMethod<void>('openNotificationPolicyAccessSettings');
+  }
+
+  @override
+  Future<bool> isNotificationPolicyAccessGranted() async {
+    final granted = await methodChannel
+        .invokeMethod<bool>('isNotificationPolicyAccessGranted');
+    return granted ?? false;
   }
 }

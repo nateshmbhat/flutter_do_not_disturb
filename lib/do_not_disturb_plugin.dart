@@ -1,4 +1,4 @@
-import 'do_not_disturb_interruption.dart';
+import 'types.dart';
 import 'do_not_disturb_platform_interface.dart';
 
 class DoNotDisturbPlugin {
@@ -17,5 +17,9 @@ class DoNotDisturbPlugin {
 
   Future<void> openNotificationPolicyAccessSettings() async {
     return DoNotDisturbPlatform.instance.openNotificationPolicyAccessSettings();
+  }
+
+  Future<bool> isNotificationPolicyAccessGranted() async {
+    return DoNotDisturbPlatform.instance.isNotificationPolicyAccessGranted();
   }
 }

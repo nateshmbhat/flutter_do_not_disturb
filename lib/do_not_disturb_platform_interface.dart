@@ -1,4 +1,4 @@
-import 'package:do_not_disturb/do_not_disturb_interruption.dart';
+import 'package:do_not_disturb/types.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'do_not_disturb_method_channel.dart';
@@ -25,6 +25,7 @@ abstract class DoNotDisturbPlatform extends PlatformInterface {
   }
 
   Future<InterruptionFilter> getDNDStatus();
+  Future<bool> isNotificationPolicyAccessGranted();
   Future<void> openDndSettings();
   Future<void> openNotificationPolicyAccessSettings();
 }

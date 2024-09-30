@@ -38,6 +38,9 @@ class DoNotDisturbPlugin: FlutterPlugin, MethodCallHandler {
         openNotificationPolicyAccessSettings()
         result.success(null)
       }
+      "isNotificationPolicyAccessGranted" -> {
+        result.success(isNotificationPolicyAccessGranted())
+      }
       else -> result.notImplemented()
     }
 
@@ -65,5 +68,10 @@ class DoNotDisturbPlugin: FlutterPlugin, MethodCallHandler {
     val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
     context.startActivity(intent)
+  }
+
+  private fun isNotificationPolicyAccessGranted(): Boolean {
+      val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+      return notificationManager.isNotificationPolicyAccessGranted
   }
 }

@@ -1,4 +1,4 @@
-import 'package:do_not_disturb/do_not_disturb_interruption.dart';
+import 'package:do_not_disturb/types.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:do_not_disturb/do_not_disturb_platform_interface.dart';
 import 'package:do_not_disturb/do_not_disturb_method_channel.dart';
@@ -28,6 +28,12 @@ class MockDoNotDisturbPlatform
   @override
   Future<void> openNotificationPolicyAccessSettings() {
     // TODO: implement openNotificationPolicyAccessSettings
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> isNotificationPolicyAccessGranted() {
+    // TODO: implement isNotificationPolicyAccessGranted
     throw UnimplementedError();
   }
 }

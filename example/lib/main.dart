@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   bool _isDndEnabled = false;
+  bool _notifPolicyAccess = false;
   InterruptionFilter _dndStatus = InterruptionFilter.unknown;
 
   @override
@@ -53,6 +54,13 @@ class _MyAppState extends State<MyApp> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
+              onPressed: _checkNotificationPolicyAccessGranted,
+              child: Text('Check if Notification Policy Access is Granted'),
+            ),
+            SizedBox(height: 10),
+            Text('Notification Policy Access : $_notifPolicyAccess'),
+            SizedBox(height: 20),
+            ElevatedButton(
               onPressed: _openNotificationPolicyAccessSettings,
               child: Text('Open Notification Policy Access Settings'),
             ),
@@ -60,6 +68,18 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  Future<void> _checkNotificationPolicyAccessGranted() async {
+    try {
+      final bool isNotificationPolicyAccessGranted =
+          await _dndPlugin.isNotificationPolicyAccessGranted();
+      setState(() {
+        _notifPolicyAccess = isNotificationPolicyAccessGranted;
+      });
+    } catch (e) {
+      print('Error checking notification policy access: $e');
+    }
   }
 
   Future<void> _checkDndEnabled() async {
