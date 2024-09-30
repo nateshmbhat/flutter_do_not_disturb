@@ -3,7 +3,7 @@
 </p>
 <h2 align="center">Powerful and Intuitive Do Not Disturb Management for Flutter</h2>
 
-[![](https://img.shields.io/pub/v/flutter_do_not_disturb)](https://pub.dev/packages/flutter_do_not_disturb)
+[![](https://img.shields.io/pub/v/flutter_do_not_disturb)](https://pub.dev/packages/do_not_disturb)
 [![](https://img.shields.io/badge/package-flutter-blue)](https://github.com/nateshmbhat/flutter_do_not_disturb)
 [![](https://img.shields.io/github/license/nateshmbhat/flutter_do_not_disturb)](https://github.com/nateshmbhat/flutter_do_not_disturb)
 [![](https://img.shields.io/github/languages/code-size/nateshmbhat/flutter_do_not_disturb)](https://github.com/nateshmbhat/flutter_do_not_disturb)
