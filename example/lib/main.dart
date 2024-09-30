@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:do_not_disturb/do_not_disturb.dart';
 
 void main() {
@@ -16,48 +13,90 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _doNotDisturbPlugin = DoNotDisturbPlugin();
+  final _dndPlugin = DoNotDisturbPlugin();
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion = await _doNotDisturbPlugin.getPlatformVersion() ??
-          'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+  bool _isDndEnabled = false;
+  InterruptionFilter _dndStatus = InterruptionFilter.unknown;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('DND Plugin Demo'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: _checkDndEnabled,
+              child: Text('Check if DND is Enabled'),
+            ),
+            SizedBox(height: 10),
+            Text('DND Enabled: $_isDndEnabled'),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _getDndStatus,
+              child: Text('Get DND Status'),
+            ),
+            SizedBox(height: 10),
+            Text('DND Status: ${_dndStatus.toString()}'),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _openDndSettings,
+              child: Text('Open DND Settings'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _openNotificationPolicyAccessSettings,
+              child: Text('Open Notification Policy Access Settings'),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<void> _checkDndEnabled() async {
+    try {
+      final bool isDndEnabled = await _dndPlugin.isDndEnabled();
+      setState(() {
+        _isDndEnabled = isDndEnabled;
+      });
+    } catch (e) {
+      print('Error checking DND status: $e');
+    }
+  }
+
+  Future<void> _getDndStatus() async {
+    try {
+      final InterruptionFilter status = await _dndPlugin.getDNDStatus();
+      setState(() {
+        _dndStatus = status;
+      });
+    } catch (e) {
+      print('Error getting DND status: $e');
+    }
+  }
+
+  Future<void> _openDndSettings() async {
+    try {
+      await _dndPlugin.openDndSettings();
+    } catch (e) {
+      print('Error opening DND settings: $e');
+    }
+  }
+
+  Future<void> _openNotificationPolicyAccessSettings() async {
+    try {
+      await _dndPlugin.openNotificationPolicyAccessSettings();
+    } catch (e) {
+      print('Error opening notification policy access settings: $e');
+    }
   }
 }
