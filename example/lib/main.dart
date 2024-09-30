@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:do_not_disturb/do_not_disturb.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MaterialApp(home: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
