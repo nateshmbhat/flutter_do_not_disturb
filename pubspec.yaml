@@ -1,11 +1,11 @@
 name: do_not_disturb
-description: "A new Flutter plugin project."
-version: 0.0.1
-# homepage:
+description: "do_not_disturb is a Flutter plugin for seamlessly managing Do Not Disturb settings on Android devices."
+version: 1.0.0
+homepage: https://github.com/nateshmbhat/flutter_do_not_disturb
 
 environment:
   sdk: ^3.5.0
-  flutter: ">=3.3.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
