@@ -22,4 +22,8 @@ class DoNotDisturbPlugin {
   Future<bool> isNotificationPolicyAccessGranted() async {
     return DoNotDisturbPlatform.instance.isNotificationPolicyAccessGranted();
   }
+
+  Future<void> setInterruptionFilter(InterruptionFilter filter) async {
+    return DoNotDisturbPlatform.instance.setInterruptionFilter(filter);
+  }
 }

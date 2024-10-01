@@ -41,6 +41,15 @@ class DoNotDisturbPlugin: FlutterPlugin, MethodCallHandler {
       "isNotificationPolicyAccessGranted" -> {
         result.success(isNotificationPolicyAccessGranted())
       }
+      "setInterruptionFilter" -> {
+        val interruptionFilter: Int? = call.arguments()
+        if(interruptionFilter == null) {
+          result.error("INVALID_ARGUMENT", "Interruption filter is required", null)
+        }
+        else{
+          result.success(setInterruptionFilter(interruptionFilter))
+        }
+      }
       else -> result.notImplemented()
     }
 
@@ -73,5 +82,14 @@ class DoNotDisturbPlugin: FlutterPlugin, MethodCallHandler {
   private fun isNotificationPolicyAccessGranted(): Boolean {
       val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
       return notificationManager.isNotificationPolicyAccessGranted
+  }
+
+  private fun setInterruptionFilter(interruptionFilter: Int): Boolean {
+    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    if (notificationManager.isNotificationPolicyAccessGranted) {
+      notificationManager.setInterruptionFilter(interruptionFilter)
+      return true
+    }
+    return false
   }
 }

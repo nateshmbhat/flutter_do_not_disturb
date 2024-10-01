@@ -28,4 +28,5 @@ abstract class DoNotDisturbPlatform extends PlatformInterface {
   Future<bool> isNotificationPolicyAccessGranted();
   Future<void> openDndSettings();
   Future<void> openNotificationPolicyAccessSettings();
+  Future<void> setInterruptionFilter(InterruptionFilter filter);
 }

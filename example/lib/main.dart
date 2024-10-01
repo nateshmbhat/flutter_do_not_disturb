@@ -1,8 +1,10 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:flutter/material.dart';
 import 'package:do_not_disturb/do_not_disturb.dart';
 
 void main() {
-  runApp(MaterialApp(home: const MyApp()));
+  runApp(const MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -28,7 +30,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DND Plugin Demo'),
+        title: const Text('DND Plugin Demo'),
       ),
       body: Center(
         child: Column(
@@ -36,33 +38,53 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             ElevatedButton(
               onPressed: _checkDndEnabled,
-              child: Text('Check if DND is Enabled'),
+              child: const Text('Check if DND is Enabled'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text('DND Enabled: $_isDndEnabled'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _getDndStatus,
-              child: Text('Get DND Status'),
+              child: const Text('Get DND Status'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text('DND Status: ${_dndStatus.toString()}'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _openDndSettings,
-              child: Text('Open DND Settings'),
+              child: const Text('Open DND Settings'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _checkNotificationPolicyAccessGranted,
-              child: Text('Check if Notification Policy Access is Granted'),
+              child:
+                  const Text('Check if Notification Policy Access is Granted'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text('Notification Policy Access : $_notifPolicyAccess'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _openNotificationPolicyAccessSettings,
-              child: Text('Open Notification Policy Access Settings'),
+              child: const Text('Open Notification Policy Access Settings'),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () async {
+                await _checkNotificationPolicyAccessGranted();
+                await Future.delayed(const Duration(milliseconds: 50));
+                if (!_notifPolicyAccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: const Text(
+                          'Notification Policy Access not granted')));
+                  return;
+                }
+                if (_isDndEnabled) {
+                  _setInterruptionFilter(InterruptionFilter.all);
+                } else {
+                  _setInterruptionFilter(InterruptionFilter.alarms);
+                }
+              },
+              child: const Text('Toggle DND/Zen mode'),
             ),
           ],
         ),
@@ -117,6 +139,16 @@ class _MyAppState extends State<MyApp> {
       await _dndPlugin.openNotificationPolicyAccessSettings();
     } catch (e) {
       print('Error opening notification policy access settings: $e');
+    }
+  }
+
+  Future<void> _setInterruptionFilter(InterruptionFilter filter) async {
+    try {
+      await _dndPlugin.setInterruptionFilter(filter);
+      _checkDndEnabled();
+      _getDndStatus();
+    } catch (e) {
+      print('Error setting interruption filter: $e');
     }
   }
 }
