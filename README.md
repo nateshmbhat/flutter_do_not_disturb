@@ -134,7 +134,7 @@ This allows for type-safe and intuitive handling of DND states in your app.
 ## Example
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nateshmbhat/flutter_do_not_disturb/main/.github/example_demo.mp4" width="250px">
+  <video src="https://raw.githubusercontent.com/nateshmbhat/flutter_do_not_disturb/main/.github/example_demo.mp4" width="250px">
 </p>
 
 Check out the [example](https://github.com/nateshmbhat/flutter_do_not_disturb/tree/master/example) directory for a complete sample app using the flutter_do_not_disturb plugin.
