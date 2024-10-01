@@ -1,6 +1,6 @@
 name: do_not_disturb
 description: "do_not_disturb is a Flutter plugin for seamlessly managing Do Not Disturb settings on Android devices."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/nateshmbhat/flutter_do_not_disturb
 
 environment:

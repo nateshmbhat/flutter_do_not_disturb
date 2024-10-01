@@ -3,7 +3,7 @@
 </p>
 <h2 align="center">Powerful and Intuitive Do Not Disturb Management for Flutter</h2>
 
-[![](https://img.shields.io/pub/v/flutter_do_not_disturb)](https://pub.dev/packages/do_not_disturb)
+[![](https://img.shields.io/pub/v/do_not_disturb)](https://pub.dev/packages/do_not_disturb)
 [![](https://img.shields.io/badge/package-flutter-blue)](https://github.com/nateshmbhat/flutter_do_not_disturb)
 [![](https://img.shields.io/github/license/nateshmbhat/flutter_do_not_disturb)](https://github.com/nateshmbhat/flutter_do_not_disturb)
 [![](https://img.shields.io/github/languages/code-size/nateshmbhat/flutter_do_not_disturb)](https://github.com/nateshmbhat/flutter_do_not_disturb)
@@ -14,7 +14,7 @@
 
 ## Features
 
-- 🎧 Check if Do Not Disturb (DND) is enabled
+- 🎧 Check if Do Not Disturb (DND) or Zen mode is enabled
 - ⚙️ Open DND settings screen directly from your app
 - 📊 Get detailed DND status (All, Priority, None, Alarms)
 - 🗝️ Check if Notification Policy access is granted
@@ -132,6 +132,10 @@ enum InterruptionFilter {
 This allows for type-safe and intuitive handling of DND states in your app.
 
 ## Example
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nateshmbhat/flutter_do_not_disturb/main/.github/example_demo.mp4" width="250px">
+</p>
 
 Check out the [example](https://github.com/nateshmbhat/flutter_do_not_disturb/tree/master/example) directory for a complete sample app using the flutter_do_not_disturb plugin.
 
