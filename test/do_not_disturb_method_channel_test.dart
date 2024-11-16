@@ -1,11 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:do_not_disturb/do_not_disturb_method_channel.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  MethodChannelDoNotDisturb platform = MethodChannelDoNotDisturb();
   const MethodChannel channel = MethodChannel('do_not_disturb');
 
   setUp(() {

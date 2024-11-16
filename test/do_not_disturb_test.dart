@@ -14,12 +14,6 @@ class MockDoNotDisturbPlatform
   }
 
   @override
-  Future<bool> isDndEnabled() {
-    // TODO: implement isDndEnabled
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> openDndSettings() {
     // TODO: implement openDndSettings
     throw UnimplementedError();
@@ -34,6 +28,12 @@ class MockDoNotDisturbPlatform
   @override
   Future<bool> isNotificationPolicyAccessGranted() {
     // TODO: implement isNotificationPolicyAccessGranted
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> setInterruptionFilter(InterruptionFilter filter) {
+    // TODO: implement setInterruptionFilter
     throw UnimplementedError();
   }
 }
