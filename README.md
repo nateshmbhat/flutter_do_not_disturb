@@ -12,6 +12,8 @@
 
 **do_not_disturb** is a Flutter plugin for seamlessly managing Do Not Disturb settings on Android devices.
 
+[🔔 MEDIUM Article Here 🔥 ](https://nateshmbhat.medium.com/shh-mastering-do-not-disturb-in-flutter-a-quirky-guide-to-digital-zen-704359b67e6c)
+
 ## Features
 
 - 🎧 Check if Do Not Disturb (DND) or Zen mode is enabled
