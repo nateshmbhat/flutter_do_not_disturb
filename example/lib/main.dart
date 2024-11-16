@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_const
+// ignore_for_file: unnecessary_const, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:do_not_disturb/do_not_disturb.dart';
