@@ -5,6 +5,7 @@ import 'do_not_disturb_platform_interface.dart';
 
 /// An implementation of [DoNotDisturbPlatform] that uses method channels.
 class MethodChannelDoNotDisturb extends DoNotDisturbPlatform {
+  /// The method channel used to communicate with the platform.
   @visibleForTesting
   final methodChannel = const MethodChannel('do_not_disturb');
 
