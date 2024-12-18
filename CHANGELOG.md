@@ -1,3 +1,7 @@
+### 1.0.3
+
+- feat: Adds doc comments to all public interfaces
+
 ### 1.0.2
 
 - feat: Instead of throwing error in ios, returns the relevant values in ios and ignores the configuration calls.
