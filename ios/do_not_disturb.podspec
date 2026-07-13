@@ -4,16 +4,17 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'do_not_disturb'
-  s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.version          = '1.0.4'
+  s.summary          = 'A Flutter plugin for managing Do Not Disturb settings on Android devices.'
   s.description      = <<-DESC
-A new Flutter plugin project.
+A Flutter plugin for seamlessly managing Do Not Disturb settings on Android devices.
+On iOS the configuration calls are safe no-ops.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/nateshmbhat/flutter_do_not_disturb'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'nateshmbhat' => 'nateshmbhat@users.noreply.github.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'do_not_disturb/Sources/do_not_disturb/**/*.swift'
   s.dependency 'Flutter'
   s.platform = :ios, '12.0'
 
@@ -21,9 +22,9 @@ A new Flutter plugin project.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
 
-  # If your plugin requires a privacy manifest, for example if it uses any
-  # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your
-  # plugin's privacy impact, and then uncomment this line. For more information,
-  # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
-  # s.resource_bundles = {'do_not_disturb_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
+  # Bundles the privacy manifest for CocoaPods consumers, mirroring the
+  # `.process("PrivacyInfo.xcprivacy")` resource declared in Package.swift so
+  # both dependency managers ship the same privacy manifest. For more info, see
+  # https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
+  s.resource_bundles = {'do_not_disturb_privacy' => ['do_not_disturb/Sources/do_not_disturb/PrivacyInfo.xcprivacy']}
 end
