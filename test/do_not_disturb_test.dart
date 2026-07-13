@@ -1,3 +1,4 @@
+import 'package:do_not_disturb/do_not_disturb_plugin.dart';
 import 'package:do_not_disturb/types.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:do_not_disturb/do_not_disturb_platform_interface.dart';
@@ -14,10 +15,8 @@ class MockDoNotDisturbPlatform
   }
 
   @override
-  Stream<InterruptionFilter> get onDndStatusChanged {
-    // TODO: implement onDndStatusChanged
-    throw UnimplementedError();
-  }
+  Stream<InterruptionFilter> get onDndStatusChanged =>
+      Stream.fromIterable([InterruptionFilter.none, InterruptionFilter.all]);
 
   @override
   Future<void> openDndSettings() {
@@ -49,6 +48,18 @@ void main() {
 
   test('$MethodChannelDoNotDisturb is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelDoNotDisturb>());
+  });
+
+  test('onDndStatusChanged delegates to the platform instance', () async {
+    final plugin = DoNotDisturbPlugin();
+    final fakePlatform = MockDoNotDisturbPlatform();
+    DoNotDisturbPlatform.instance = fakePlatform;
+
+    // On the (non-iOS) test host, the getter delegates to the platform stream.
+    await expectLater(
+      plugin.onDndStatusChanged,
+      emitsInOrder([InterruptionFilter.none, InterruptionFilter.all]),
+    );
   });
 
   // test('getPlatformVersion', () async {

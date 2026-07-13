@@ -91,10 +91,15 @@ class DoNotDisturbPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamH
       }
     }
     interruptionFilterReceiver = receiver
-    context.registerReceiver(
-      receiver,
-      IntentFilter(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
-    )
+    val filter = IntentFilter(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
+    // Apps targeting Android 13+ (API 33) must declare an export flag when
+    // registering a context receiver. This receiver only listens to the app's
+    // own process, so it is explicitly not exported.
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
+    } else {
+      context.registerReceiver(receiver, filter)
+    }
 
     // Emit the current status so subscribers immediately know the current state.
     events.success(getDNDStatus())

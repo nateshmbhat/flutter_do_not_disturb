@@ -39,9 +39,10 @@ void main() {
         platform.eventChannel,
         MockStreamHandler.inline(
           onListen: (Object? arguments, MockStreamHandlerEventSink events) {
+            // Mimic the native side: emit the current status, then a change.
+            // The real stream never completes, so we do not call endOfStream.
             events.success(InterruptionFilter.none.value);
             events.success(InterruptionFilter.all.value);
-            events.endOfStream();
           },
         ),
       );
@@ -54,12 +55,11 @@ void main() {
 
     test('emits InterruptionFilter values from the native event channel',
         () async {
-      expect(
+      await expectLater(
         platform.onDndStatusChanged,
         emitsInOrder([
           InterruptionFilter.none,
           InterruptionFilter.all,
-          emitsDone,
         ]),
       );
     });
