@@ -1,3 +1,7 @@
+### 1.1.0
+
+- feat: Adds `onDndStatusChanged` stream to listen for Do Not Disturb status changes, including changes made from outside the app (e.g. quick settings tile or system settings). Resolves [#4](https://github.com/nateshmbhat/flutter_do_not_disturb/issues/4).
+
 ### 1.0.3
 
 - feat: Adds doc comments to all public interfaces

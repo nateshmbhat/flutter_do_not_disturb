@@ -19,6 +19,7 @@
 - 🎧 Check if Do Not Disturb (DND) or Zen mode is enabled
 - ⚙️ Open DND settings screen directly from your app
 - 📊 Get detailed DND status (All, Priority, None, Alarms)
+- 📡 Listen to a stream of DND status changes, even when toggled from outside your app
 - 🗝️ Check if Notification Policy access is granted
 - 🔐 Open Notification Policy Settings screen.
 - 🤳 Allows Setting DND mode directly from your app
@@ -52,6 +53,15 @@ print('DND Enabled: $isDndEnabled');
 // Get current DND status
 InterruptionFilter status = await dndPlugin.getDNDStatus();
 print('Current DND Status: $status');
+
+// Listen for DND status changes (emits the current status immediately, then on
+// every change — including changes made from the quick settings tile or system
+// settings outside your app). Remember to cancel the subscription when done.
+final subscription = dndPlugin.onDndStatusChanged.listen((status) {
+  print('DND status changed: $status');
+});
+// ...
+await subscription.cancel();
 
 // Open DND settings
 await dndPlugin.openDndSettings();

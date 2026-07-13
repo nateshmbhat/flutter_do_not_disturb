@@ -1,11 +1,14 @@
 package com.example.do_not_disturb
 
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.provider.Settings
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -13,17 +16,25 @@ import io.flutter.plugin.common.MethodChannel.Result
 
 
 /** DoNotDisturbPlugin */
-class DoNotDisturbPlugin: FlutterPlugin, MethodCallHandler {
+class DoNotDisturbPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
   private lateinit var channel : MethodChannel
+
+  /// The EventChannel used to stream Do Not Disturb status changes to Flutter.
+  private lateinit var eventChannel : EventChannel
   private lateinit var context: Context
+
+  /// The receiver registered while a Flutter subscriber is listening to DND status changes.
+  private var interruptionFilterReceiver: BroadcastReceiver? = null
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "do_not_disturb")
     channel.setMethodCallHandler(this)
+    eventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "do_not_disturb/status")
+    eventChannel.setStreamHandler(this)
     context = flutterPluginBinding.applicationContext
   }
 
@@ -57,6 +68,59 @@ class DoNotDisturbPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
+    eventChannel.setStreamHandler(null)
+    unregisterInterruptionFilterReceiver()
+  }
+
+  /// Called when Flutter starts listening to the DND status EventChannel.
+  ///
+  /// Registers a [BroadcastReceiver] for [NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED]
+  /// and emits the current status immediately so subscribers have an initial value.
+  override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+    if (events == null) {
+      return
+    }
+    // Ensure a stale receiver from a previous listen is torn down first.
+    unregisterInterruptionFilterReceiver()
+
+    val receiver = object : BroadcastReceiver() {
+      override fun onReceive(receiverContext: Context?, intent: Intent?) {
+        if (intent?.action == NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED) {
+          events.success(getDNDStatus())
+        }
+      }
+    }
+    interruptionFilterReceiver = receiver
+    val filter = IntentFilter(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)
+    // Apps targeting Android 13+ (API 33) must declare an export flag when
+    // registering a context receiver. This receiver only listens to the app's
+    // own process, so it is explicitly not exported.
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
+    } else {
+      context.registerReceiver(receiver, filter)
+    }
+
+    // Emit the current status so subscribers immediately know the current state.
+    events.success(getDNDStatus())
+  }
+
+  /// Called when Flutter stops listening to the DND status EventChannel.
+  ///
+  /// Unregisters the [BroadcastReceiver] to avoid leaks.
+  override fun onCancel(arguments: Any?) {
+    unregisterInterruptionFilterReceiver()
+  }
+
+  private fun unregisterInterruptionFilterReceiver() {
+    interruptionFilterReceiver?.let {
+      try {
+        context.unregisterReceiver(it)
+      } catch (e: IllegalArgumentException) {
+        // Receiver was already unregistered; safe to ignore.
+      }
+    }
+    interruptionFilterReceiver = null
   }
 
 

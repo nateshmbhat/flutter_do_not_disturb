@@ -25,6 +25,19 @@ class DoNotDisturbPlugin {
     return DoNotDisturbPlatform.instance.getDNDStatus();
   }
 
+  /// A stream that emits the [InterruptionFilter] whenever the Do Not Disturb
+  /// status changes, including when it is toggled from outside the app (for
+  /// example from the quick settings tile or system settings).
+  ///
+  /// The current status is emitted immediately upon subscription. On iOS this
+  /// returns an empty stream since DND status changes are not observable.
+  Stream<InterruptionFilter> get onDndStatusChanged {
+    if (Platform.isIOS) {
+      return const Stream<InterruptionFilter>.empty();
+    }
+    return DoNotDisturbPlatform.instance.onDndStatusChanged;
+  }
+
   /// Opens the Do Not Disturb settings.
   ///
   /// Does nothing if the platform is iOS, otherwise opens the DND settings from the platform instance.

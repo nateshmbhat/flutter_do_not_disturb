@@ -9,10 +9,24 @@ class MethodChannelDoNotDisturb extends DoNotDisturbPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('do_not_disturb');
 
+  /// The event channel used to receive Do Not Disturb status changes.
+  @visibleForTesting
+  final eventChannel = const EventChannel('do_not_disturb/status');
+
+  Stream<InterruptionFilter>? _onDndStatusChanged;
+
   @override
   Future<InterruptionFilter> getDNDStatus() async {
     final int? status = await methodChannel.invokeMethod<int>('getDNDStatus');
     return InterruptionFilter.fromValue(status ?? 0);
+  }
+
+  @override
+  Stream<InterruptionFilter> get onDndStatusChanged {
+    _onDndStatusChanged ??= eventChannel
+        .receiveBroadcastStream()
+        .map((event) => InterruptionFilter.fromValue((event as int?) ?? 0));
+    return _onDndStatusChanged!;
   }
 
   @override
