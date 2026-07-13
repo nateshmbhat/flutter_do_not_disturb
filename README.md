@@ -107,6 +107,28 @@ await dndPlugin.setInterruptionFilter(InterruptionFilter.priority);
 
 > Note: Setting DND mode requires user action to grant permission. Always check for permission and guide the user to the settings if necessary.
 
+### iOS Setup
+
+> Note: Do Not Disturb configuration is Android-only. On iOS, the read/configuration
+> calls are safe no-ops (they return sensible defaults instead of throwing), so the
+> plugin can be integrated into any Flutter app without extra work.
+
+The iOS integration supports both **CocoaPods** and **Swift Package Manager (SPM)** —
+no extra configuration is required for either.
+
+- **CocoaPods:** Works out of the box. `pod install` resolves the plugin automatically.
+- **Swift Package Manager:** Supported for projects that have opted into Flutter's SPM
+  integration. Enable it once with:
+
+  ```bash
+  flutter config --enable-swift-package-manager
+  ```
+
+  Flutter then resolves the plugin's Swift package automatically the next time you build
+  or run your app — no changes to your `Package.swift` or Xcode project are needed. See the
+  [Flutter Swift Package Manager guide](https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers)
+  for details.
+
 ## Interruption Filter States
 
 The plugin uses an enhanced enum `InterruptionFilter` to represent DND states:

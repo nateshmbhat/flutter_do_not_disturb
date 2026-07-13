@@ -1,3 +1,7 @@
+### 1.0.4
+
+- feat: Adds Swift Package Manager (SPM) support for iOS alongside the existing CocoaPods integration.
+
 ### 1.0.3
 
 - feat: Adds doc comments to all public interfaces
