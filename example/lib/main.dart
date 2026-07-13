@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_const, avoid_print
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:do_not_disturb/do_not_disturb.dart';
 
@@ -16,15 +18,32 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _dndPlugin = DoNotDisturbPlugin();
+  StreamSubscription<InterruptionFilter>? _dndStatusSubscription;
 
   @override
   void initState() {
     super.initState();
+    // Listen for DND status changes, including those made from outside the app
+    // (e.g. the quick settings tile or system settings).
+    _dndStatusSubscription = _dndPlugin.onDndStatusChanged.listen((status) {
+      setState(() {
+        _liveDndStatus = status;
+        _dndStatus = status;
+        _isDndEnabled = status != InterruptionFilter.all;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _dndStatusSubscription?.cancel();
+    super.dispose();
   }
 
   bool _isDndEnabled = false;
   bool _notifPolicyAccess = false;
   InterruptionFilter _dndStatus = InterruptionFilter.unknown;
+  InterruptionFilter _liveDndStatus = InterruptionFilter.unknown;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +55,15 @@ class _MyAppState extends State<MyApp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 20),
+              color: Colors.amber.shade100,
+              child: Text(
+                'Live DND Status (auto-updates): $_liveDndStatus',
+                textAlign: TextAlign.center,
+              ),
+            ),
             ElevatedButton(
               onPressed: _checkDndEnabled,
               child: const Text('Check if DND is Enabled'),

@@ -14,6 +14,12 @@ class MockDoNotDisturbPlatform
   }
 
   @override
+  Stream<InterruptionFilter> get onDndStatusChanged {
+    // TODO: implement onDndStatusChanged
+    throw UnimplementedError();
+  }
+
+  @override
   Future<void> openDndSettings() {
     // TODO: implement openDndSettings
     throw UnimplementedError();

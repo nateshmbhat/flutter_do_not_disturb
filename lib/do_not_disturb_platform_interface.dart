@@ -30,6 +30,12 @@ abstract class DoNotDisturbPlatform extends PlatformInterface {
   /// Returns the current [InterruptionFilter] status.
   Future<InterruptionFilter> getDNDStatus();
 
+  /// A stream that emits the [InterruptionFilter] whenever the Do Not Disturb
+  /// status changes, including when it is changed from outside the app.
+  ///
+  /// The current status is emitted immediately upon subscription.
+  Stream<InterruptionFilter> get onDndStatusChanged;
+
   /// Checks if the Notification Policy Access is granted.
   ///
   /// Returns `true` if access is granted, otherwise `false`.
