@@ -4,14 +4,15 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'do_not_disturb'
-  s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.version          = '1.0.4'
+  s.summary          = 'A Flutter plugin for managing Do Not Disturb settings on Android devices.'
   s.description      = <<-DESC
-A new Flutter plugin project.
+A Flutter plugin for seamlessly managing Do Not Disturb settings on Android devices.
+On iOS the configuration calls are safe no-ops.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/nateshmbhat/flutter_do_not_disturb'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'nateshmbhat' => 'nateshmbhat@users.noreply.github.com' }
   s.source           = { :path => '.' }
   s.source_files = 'do_not_disturb/Sources/do_not_disturb/**/*.swift'
   s.dependency 'Flutter'
